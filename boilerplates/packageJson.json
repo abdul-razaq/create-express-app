@@ -1,0 +1,16 @@
+{
+  "name": "Natour-API",
+  "version": "1.0.0",
+  "description": "The Natours API",
+  "main": "app.js",
+  "author": "AbdulRazaq Ayomide Suleiman",
+  "license": "MIT",
+  "private": null,
+  "scripts": {
+    "start": "nodemon -r esm server.js",
+    "start:prod": "NODE_ENV=production node -r esm server.js"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  }
+}

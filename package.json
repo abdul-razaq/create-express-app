@@ -1,0 +1,16 @@
+{
+	"name": "create-express-app",
+	"version": "1.0.0",
+	"description": "A script that generates new express project",
+	"main": "index.js",
+	"author": "AbdulRazaq Suleiman",
+	"license": "MIT",
+	"private": null,
+	"scripts": {
+		"start": "nodemon -r esm index.js"
+	},
+	"dependencies": {
+		"chalk": "^4.1.0",
+		"esm": "^3.2.25"
+	}
+}

@@ -10,9 +10,11 @@ import helmet from 'helmet'
 import mongoSanitize from 'express-mongo-sanitize'
 import xss from 'xss-clean'
 import hpp from 'hpp'
+import swaggerUI from 'swagger-ui-express'
 
 import authRouter from './routes/authRoutes'
 import globalErrorHandler from './controllers/errorController'
+import swaggerDocument from './swagger.json'
 
 dotenv.config()
 
@@ -58,6 +60,9 @@ app.use(express.text())
 
 // Static files middleware
 app.use(express.static(\`\${__dirname}/public\`))
+
+// Documentation Middleware
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 // Specify Application routes here
 app.use(\`\${basePath}/auth\`, authRouter)

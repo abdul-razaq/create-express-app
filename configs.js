@@ -44,6 +44,10 @@ export const dependenciesToInstall = [
   'slugify',
   'validator',
   'xss-clean',
+  'cloudinary',
+  'global',
+  'jest',
+  'swagger-ui-express'
 ]
 
 export const devDependenciesToInstall = [

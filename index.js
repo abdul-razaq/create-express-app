@@ -1,21 +1,21 @@
-#!/usr/bin/node
-import os from 'os'
-import path from 'path'
-import readline from 'readline'
+#! /usr/bin/env node
+const os = require('os')
+const path = require('path')
+const readline = require('readline')
 
-import main from './main'
+const main = require('./main')
 
-import { WARNING, QUERY, ERROR, INFO } from './termColor'
+const { WARNING, QUERY, ERROR, INFO } = require('./termColor')
 
-import {
+const {
   createDirectory,
   removeDirectoryAndCreate,
   directoryExists,
-} from './helpers'
+} = require('./helpers')
 
 let projectLocation, projectName, projectAuthor, pathDirectory
 
-console.log(INFO('create-express-app v1.0.0'))
+console.log(INFO('setup-express-app v1.0.0'))
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -58,6 +58,7 @@ rl.question(
           }
         } catch (err) {
           console.log(ERROR('Location does not exist!'))
+          process.exit(1)
         }
       })
     })

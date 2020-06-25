@@ -1,5 +1,5 @@
-import fs from 'fs'
-import path from 'path'
+const fs = require('fs')
+const path = require('path')
 
 const expressBoilerplate = `
 import dotenv from 'dotenv'
@@ -13,6 +13,7 @@ import hpp from 'hpp'
 import swaggerUI from 'swagger-ui-express'
 
 import authRouter from './routes/authRoutes'
+import AppError from './helpers/appError'
 import globalErrorHandler from './controllers/errorController'
 import swaggerDocument from './swagger.json'
 
@@ -183,8 +184,8 @@ export default router
 const authControllerBoilerplate = `
 import catchAsyncError from '../helpers/catchAsyncError'
 
-const signup = catchAsyncError(async (req, res, next) => {})
-const login = catchAsyncError(async (req, res, next) => {})
+export const signup = catchAsyncError(async (req, res, next) => {})
+export const login = catchAsyncError(async (req, res, next) => {})
 
 `
 
@@ -205,7 +206,24 @@ node_modules/
 .env
 `
 
-export default () => {
+const swaggerBoilerplate = `
+{
+
+}
+`
+const appErrorBoilerplate = `
+export default class AppError extends Error {
+  constructor(message, statusCode) {
+    super(message)
+    this.statusCode = statusCode
+    this.status = \`\${statusCode}\`.startsWith('4') ? 'fail' : 'error'
+    this.isOperational = true
+    Error.captureStackTrace(this, this.constructor)
+  }
+}
+`
+
+module.exports = () => {
   fs.writeFileSync('app.js', expressBoilerplate, { encoding: 'utf-8' })
   fs.writeFileSync('server.js', serverBoilerplate, { encoding: 'utf-8' })
   fs.writeFileSync('.eslintrc.json', eslintrcBoilerplate, {
@@ -229,5 +247,11 @@ export default () => {
   fs.writeFileSync('catchAsyncError.js', catchAsyncBoilerplate, {
     encoding: 'utf-8',
   })
+  fs.writeFileSync('appError.js', appErrorBoilerplate, {
+    encoding: 'utf-8',
+  })
   process.chdir(path.join('../', ''))
+  fs.writeFileSync('swagger.json', swaggerBoilerplate, {
+    encoding: 'utf-8',
+  })
 }

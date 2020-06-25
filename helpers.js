@@ -1,13 +1,13 @@
-import fs from 'fs'
-import path from 'path'
-import childProcess from 'child_process'
+const fs = require('fs')
+const path = require('path')
+const childProcess = require('child_process')
 
-import generateBoilerplateCodes from './boilerplates'
-import packageJSON from './boilerplates/packageJson.json'
-import { dependenciesToInstall, devDependenciesToInstall } from './configs'
-import { SUCCESS, ERROR, INFO } from './termColor'
+const generateBoilerplateCodes = require('./boilerplates')
+const packageJSON = require('./boilerplates/packageJson.json')
+const { dependenciesToInstall, devDependenciesToInstall } = require('./configs')
+const { SUCCESS, ERROR, INFO } = require('./termColor')
 
-export const createDirectory = (directoryName, remark) => {
+const createDirectory = (directoryName, remark) => {
   try {
     fs.mkdirSync(directoryName)
     process.chdir(directoryName)
@@ -18,7 +18,7 @@ export const createDirectory = (directoryName, remark) => {
   }
 }
 
-export const removeDirectoryAndCreate = (directoryName, remark) => {
+const removeDirectoryAndCreate = (directoryName, remark) => {
   try {
     fs.rmdirSync(directoryName, { recursive: true })
     createDirectory(directoryName, remark)
@@ -27,7 +27,7 @@ export const removeDirectoryAndCreate = (directoryName, remark) => {
   }
 }
 
-export const directoryExists = (directoryName) => {
+const directoryExists = (directoryName) => {
   try {
     fs.accessSync(
       directoryName,
@@ -39,21 +39,21 @@ export const directoryExists = (directoryName) => {
   }
 }
 
-export const generateProjectFolders = (directories) => {
+const generateProjectFolders = (directories) => {
   console.log(INFO('Creating project directories...'))
   directories.forEach((directory) => {
     fs.mkdirSync(directory)
   })
 }
 
-export const createTopLevelFiles = (files) => {
+const createTopLevelFiles = (files) => {
   console.log(INFO('Creating top level files...'))
   files.forEach((file) => {
     fs.writeFileSync(file, '')
   })
 }
 
-export const createCommonFiles = () => {
+const createCommonFiles = () => {
   console.log(INFO('Creating common project files...'))
   let pathDirectory = path.join(process.cwd(), 'middlewares')
   process.chdir(pathDirectory)
@@ -101,7 +101,7 @@ export const createCommonFiles = () => {
   process.chdir(pathDirectory)
 }
 
-export const initProjectAndInstallDependencies = (authorName) => {
+const initProjectAndInstallDependencies = (authorName) => {
   console.log(INFO('Initializing project and creating package.json file...'))
   childProcess.exec(
     `yarn config set init-author-name ${authorName}; yarn init --yes`,
@@ -136,7 +136,7 @@ export const initProjectAndInstallDependencies = (authorName) => {
                 'Could not install dependencies and dev-dependencies! Check your internet connection.'
               )
             )
-            // process.exit(1)
+            process.exit(1)
           }
           console.log(
             SUCCESS('Successfully installed dependencies and dev-dependencies!')
@@ -150,11 +150,19 @@ export const initProjectAndInstallDependencies = (authorName) => {
           childProcess.exec('code .', (err, stdout, stderr) => {
             if (stderr) {
               console.log(ERROR('Unable to launch Visual Studio Code Editor.'))
+              process.exit(1)
             }
-            console.log(INFO('Spawning server...'))
             childProcess.exec('yarn run start', (err, stdout, stderr) => {
-              if (err) console.log(err)
-              if (stderr) console.log(ERROR('Error spawning server!'))
+              console.log(INFO('Spawning server on port 5000...'))
+              if (stderr) {
+                console.log(ERROR('Error spawning server!'))
+                process.exit(1)
+              }
+              console.log(
+                SUCCESS(
+                  'Server successfully started on port 5000! Waiting for incoming requests...'
+                )
+              )
               console.log(stdout)
             })
           })
@@ -162,4 +170,14 @@ export const initProjectAndInstallDependencies = (authorName) => {
       )
     }
   )
+}
+
+module.exports = {
+  createDirectory,
+  removeDirectoryAndCreate,
+  directoryExists,
+  initProjectAndInstallDependencies,
+  createCommonFiles,
+  createTopLevelFiles,
+  generateProjectFolders,
 }

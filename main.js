@@ -1,12 +1,12 @@
-import { directoriesToCreate, topLevelFilesToCreate } from './configs'
-import {
+const { directoriesToCreate, topLevelFilesToCreate } = require('./configs')
+const {
   generateProjectFolders,
   createTopLevelFiles,
   createCommonFiles,
   initProjectAndInstallDependencies,
-} from './helpers'
+} = require('./helpers')
 
-export default (projectAuthor) => {
+module.exports = (projectAuthor) => {
   generateProjectFolders(directoriesToCreate)
   createTopLevelFiles(topLevelFilesToCreate)
   createCommonFiles()

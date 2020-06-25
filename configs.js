@@ -1,4 +1,4 @@
-export const directoriesToCreate = [
+exports.directoriesToCreate = [
   'models',
   'controllers',
   'helpers',
@@ -10,7 +10,7 @@ export const directoriesToCreate = [
   'middlewares',
 ]
 
-export const topLevelFilesToCreate = [
+exports.topLevelFilesToCreate = [
   'app.js',
   '.env',
   '.prettierrc',
@@ -23,7 +23,7 @@ export const topLevelFilesToCreate = [
   'requests.rest',
 ]
 
-export const dependenciesToInstall = [
+exports.dependenciesToInstall = [
   'bcryptjs',
   'compression',
   'cors',
@@ -47,10 +47,11 @@ export const dependenciesToInstall = [
   'cloudinary',
   'global',
   'jest',
-  'swagger-ui-express'
+  'swagger-ui-express',
+  'node-fetch',
 ]
 
-export const devDependenciesToInstall = [
+exports.devDependenciesToInstall = [
   'eslint',
   'eslint-config-airbnb',
   'eslint-config-prettier',
